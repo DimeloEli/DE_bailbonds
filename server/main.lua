@@ -50,10 +50,10 @@ RegisterNetEvent('DE_bailbonds:payBond')
 AddEventHandler('DE_bailbonds:payBond', function(name, price)
     local source = source
     local xPlayer = ESX.GetPlayerFromId(source)
-    local plyMoney = xPlayer.getAccount("bank").money
+    local plyMoney = xPlayer.getAccount(Config.PayAccount).money
 
     if plyMoney >= price then
-        xPlayer.removeAccountMoney("bank", price)
+        xPlayer.removeAccountMoney(Config.PayAccount, price)
 
         TriggerEvent('esx_addonaccount:getSharedAccount', 'society_police', function(account)
             if account then
