@@ -54,7 +54,13 @@ AddEventHandler('DE_bailbonds:payBond', function(name, price)
 
     if plyMoney >= price then
         xPlayer.removeAccountMoney("bank", price)
-        exports.bcs_companymanager:AddCompanyMoney("police", "money", price, source, "Bond Payment", true)
+
+        TriggerEvent('esx_addonaccount:getSharedAccount', 'society_police', function(account)
+            if account then
+                account.addMoney(price)
+            end
+        end)
+            
         MySQL.update.await('UPDATE `user_bailbonds` SET `paid` = ? WHERE `name` = ? AND `price` = ?', {
             1, name, price
         })
